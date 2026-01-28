@@ -4,24 +4,28 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary text-gray-300 pt-12 pb-6 text-sm">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <footer className="bg-secondary text-gray-300 pt-16 pb-8 text-base">
+      <div className="container mx-auto max-w-[1800px] px-6 sm:px-8 lg:px-12">
         
         {/* --- SECCIÓN SUPERIOR: SUSCRIPCIÓN --- */}
-        <div className="flex flex-col lg:flex-row justify-between items-center gap-8 pb-10 border-b border-gray-700">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-10 pb-12 border-b border-gray-700">
           
           {/* Logo en Caja Blanca */}
           <div className="bg-white p-3 rounded w-48 h-16 flex items-center justify-center relative">
-             {/* Usamos un texto simulado hasta que tengas la imagen del logo recortada */}
-             <h2 className="text-secondary font-extrabold text-2xl tracking-tighter">
-                TOP<span className="text-primary">SELL</span>
-             </h2>
+             <div className="relative w-50 h-12">
+               <Image 
+                 src="/logo.png" 
+                 alt="TopSell Logo" 
+                 fill
+                 className="object-contain"
+               />
+             </div>
           </div>
 
           {/* Texto de Suscripción */}
           <div className="text-center lg:text-left max-w-md">
-            <h3 className="text-white font-bold text-lg mb-1">Suscríbete a nuestra página</h3>
-            <p className="text-gray-400 text-xs">
+            <h3 className="text-white font-bold text-xl mb-1">Suscríbete a nuestra página</h3>
+            <p className="text-gray-400 text-sm">
               Para enviarte a tu correo todas nuestras ofertas exclusivas y novedades.
             </p>
           </div>
@@ -43,12 +47,12 @@ export default function Footer() {
         </div>
 
         {/* --- SECCIÓN MEDIA: COLUMNAS --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-12">
           
           {/* Columna 1: Contacto */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-base">Contacto</h4>
-            <ul className="space-y-3 text-xs text-gray-400">
+            <h4 className="text-white font-bold mb-6 text-lg">Contacto</h4>
+            <ul className="space-y-3 text-sm text-gray-400">
               <li>ventas@topsell.com</li> {/* Correo ficticio basado en imagen */}
               <li>
                 <p>Lunes - Viernes: 9:00AM - 5:00PM</p>
@@ -62,21 +66,21 @@ export default function Footer() {
                 <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white text-xl group-hover:bg-green-600 transition">
                   <FaWhatsapp />
                 </div>
-                <span className="text-[10px] text-gray-400">Ventas</span>
+                <span className="text-xs text-gray-400">Ventas</span>
               </div>
               <div className="flex flex-col items-center gap-1 cursor-pointer group">
                  <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white text-xl group-hover:bg-green-600 transition">
                   <FaWhatsapp />
                 </div>
-                <span className="text-[10px] text-gray-400">Marketing</span>
+                <span className="text-xs text-gray-400">Marketing</span>
               </div>
             </div>
           </div>
 
           {/* Columna 2: Mi Cuenta */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-base">Mi Cuenta</h4>
-            <ul className="space-y-3 text-xs text-gray-400">
+            <h4 className="text-white font-bold mb-6 text-lg">Mi Cuenta</h4>
+            <ul className="space-y-3 text-sm text-gray-400">
               <li><a href="#" className="hover:text-primary transition">Sobre Nosotros</a></li>
               <li><a href="#" className="hover:text-primary transition">Libro de Reclamaciones</a></li>
               <li><a href="#" className="hover:text-primary transition">Términos y Condiciones</a></li>
@@ -86,8 +90,8 @@ export default function Footer() {
 
           {/* Columna 3: Más Información */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-base">Más Información</h4>
-            <ul className="space-y-4 text-xs text-gray-400">
+            <h4 className="text-white font-bold mb-6 text-lg">Más Información</h4>
+            <ul className="space-y-4 text-sm text-gray-400">
               <li><a href="#" className="hover:text-primary transition">Carrito</a></li>
               
               {/* Imagen Libro Reclamaciones (Simulada) */}
@@ -95,8 +99,8 @@ export default function Footer() {
                 <div className="border border-white/30 rounded p-1 inline-block w-32 h-20 relative bg-gray-800 hover:border-white transition cursor-pointer">
                     {/* Placeholder visual para el libro */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                        <span className="text-[10px] font-bold text-blue-400">Libro de</span>
-                        <span className="text-[10px] font-bold text-blue-400">Reclamaciones</span>
+                        <span className="text-xs font-bold text-blue-400">Libro de</span>
+                        <span className="text-xs font-bold text-blue-400">Reclamaciones</span>
                         <div className="w-8 h-5 border border-white mt-1"></div>
                     </div>
                 </div>
@@ -106,7 +110,7 @@ export default function Footer() {
 
           {/* Columna 4: Redes Sociales */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-base">Redes Sociales</h4>
+            <h4 className="text-white font-bold mb-6 text-lg">Redes Sociales</h4>
             <div className="flex gap-4">
               <a href="#" className="text-gray-400 hover:text-white transition text-lg">
                 <FaFacebookF />
@@ -124,7 +128,7 @@ export default function Footer() {
 
         {/* --- SECCIÓN INFERIOR: COPYRIGHT --- */}
         <div className="border-t border-gray-800 pt-6 text-center">
-          <p className="text-xs text-gray-500">
+          <p className="text-sm text-gray-500">
             Topsell © 2025. Todos los Derechos Reservados
           </p>
         </div>

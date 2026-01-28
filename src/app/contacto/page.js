@@ -4,7 +4,7 @@ export default function ContactoPage() {
   return (
     <main className="bg-white min-h-screen flex items-center">
       
-      <div className="container mx-auto max-w-6xl px-4 py-16">
+      <div className="container mx-auto max-w-[1600px] px-6 sm:px-8 lg:px-12 py-16">
         
         {/* Grid de 2 Columnas (Izquierda: Imagen/Mapa, Derecha: Formulario) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -23,8 +23,8 @@ export default function ContactoPage() {
 
           {/* --- COLUMNA DERECHA (Formulario) --- */}
           <div className="md:pl-8">
-            <h2 className="text-4xl font-extrabold text-primary mb-4">Hablemos</h2>
-            <p className="text-gray-500 text-sm mb-8 leading-relaxed">
+            <h2 className="text-6xl font-extrabold text-primary mb-4">Hablemos</h2>
+            <p className="text-gray-500 text-lg mb-8 leading-relaxed">
               Siéntete libre de dejarnos cualquier mensaje sobre tus recomendaciones o inconvenientes que has tenido con nuestra tienda.
             </p>
 
@@ -32,7 +32,7 @@ export default function ContactoPage() {
               
               {/* Nombres */}
               <div>
-                <label htmlFor="nombres" className="block text-sm font-bold text-secondary mb-2 pl-1">
+                <label htmlFor="nombres" className="block text-lg font-bold text-secondary mb-2 pl-1">
                   Nombres
                 </label>
                 <input 
@@ -45,7 +45,7 @@ export default function ContactoPage() {
 
               {/* Apellidos */}
               <div>
-                <label htmlFor="apellidos" className="block text-sm font-bold text-secondary mb-2 pl-1">
+                <label htmlFor="apellidos" className="block text-lg font-bold text-secondary mb-2 pl-1">
                   Apellidos
                 </label>
                 <input 
@@ -58,7 +58,7 @@ export default function ContactoPage() {
 
               {/* Correo */}
               <div>
-                <label htmlFor="correo" className="block text-sm font-bold text-secondary mb-2 pl-1">
+                <label htmlFor="correo" className="block text-lg font-bold text-secondary mb-2 pl-1">
                   Correo
                 </label>
                 <input 
@@ -71,7 +71,7 @@ export default function ContactoPage() {
 
               {/* Mensaje */}
               <div>
-                <label htmlFor="mensaje" className="block text-sm font-bold text-secondary mb-2 pl-1">
+                <label htmlFor="mensaje" className="block text-lg font-bold text-secondary mb-2 pl-1">
                   Mensaje
                 </label>
                 <textarea 

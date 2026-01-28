@@ -65,15 +65,15 @@ export default function RegistroPage() {
             <div className="max-w-3xl w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
 
                 <div className="text-center pt-10 pb-6 bg-secondary px-6">
-                    <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Crear Cuenta</h2>
-                    <p className="text-gray-400 text-sm">Elige cómo quieres interactuar con Topsell</p>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-2">Crear Cuenta</h2>
+                    <p className="text-gray-400 text-lg">Elige cómo quieres interactuar con Topsell</p>
                 </div>
 
                 {/* --- TABS --- */}
                 <div className="flex border-b border-gray-200 bg-gray-50">
                     <button
                         onClick={() => setActiveTab('cliente')}
-                        className={`flex-1 py-5 text-sm font-bold uppercase tracking-wide transition flex justify-center items-center gap-2
+                        className={`flex-1 py-5 text-lg font-bold uppercase tracking-wide transition flex justify-center items-center gap-2
                     ${activeTab === 'cliente' ? 'border-b-4 border-primary text-primary bg-white' : 'text-gray-400 hover:text-secondary hover:bg-gray-100'}
                 `}
                     >
@@ -81,7 +81,7 @@ export default function RegistroPage() {
                     </button>
                     <button
                         onClick={() => setActiveTab('invitado')}
-                        className={`flex-1 py-5 text-sm font-bold uppercase tracking-wide transition flex justify-center items-center gap-2
+                        className={`flex-1 py-5 text-lg font-bold uppercase tracking-wide transition flex justify-center items-center gap-2
                     ${activeTab === 'invitado' ? 'border-b-4 border-primary text-primary bg-white' : 'text-gray-400 hover:text-secondary hover:bg-gray-100'}
                 `}
                     >
@@ -93,7 +93,7 @@ export default function RegistroPage() {
                 <div className="p-8 md:p-10">
 
                     {/* Mensaje Informativo según Tab */}
-                    <div className={`mb-8 p-4 rounded-lg text-sm flex gap-3 items-start border
+                    <div className={`mb-8 p-4 rounded-lg text-lg flex gap-3 items-start border
                 ${activeTab === 'cliente' ? 'bg-blue-50 text-blue-800 border-blue-100' : 'bg-orange-50 text-orange-800 border-orange-100'}
             `}>
                         <FaCheckCircle className="mt-0.5 flex-shrink-0 text-lg" />
@@ -120,7 +120,7 @@ export default function RegistroPage() {
 
                         {/* Nombres */}
                         <div className="col-span-1">
-                            <label className="text-xs font-bold text-secondary uppercase mb-2 block">Nombres</label>
+                            <label className="text-base font-bold text-secondary uppercase mb-2 block">Nombres</label>
                             <input
                                 name="nombres"
                                 required
@@ -133,7 +133,7 @@ export default function RegistroPage() {
 
                         {/* Apellidos */}
                         <div className="col-span-1">
-                            <label className="text-xs font-bold text-secondary uppercase mb-2 block">Apellidos</label>
+                            <label className="text-base font-bold text-secondary uppercase mb-2 block">Apellidos</label>
                             <input
                                 name="apellidos"
                                 required
@@ -146,7 +146,7 @@ export default function RegistroPage() {
 
                         {/* Email */}
                         <div className="col-span-1 md:col-span-2">
-                            <label className="text-xs font-bold text-secondary uppercase mb-2 block">Correo Electrónico</label>
+                            <label className="text-base font-bold text-secondary uppercase mb-2 block">Correo Electrónico</label>
                             <input
                                 name="email"
                                 type="email"
@@ -160,7 +160,7 @@ export default function RegistroPage() {
 
                         {/* Teléfono */}
                         <div className="col-span-1 md:col-span-2">
-                            <label className="text-xs font-bold text-secondary uppercase mb-2 block">Teléfono / Celular</label>
+                            <label className="text-base font-bold text-secondary uppercase mb-2 block">Teléfono / Celular</label>
                             <input
                                 name="telefono"
                                 type="tel"
@@ -175,7 +175,7 @@ export default function RegistroPage() {
                         {/* Password (SOLO VISIBLE EN CLIENTE) */}
                         {activeTab === 'cliente' && (
                             <div className="col-span-1 md:col-span-2 mt-2 bg-gray-50 p-4 rounded-lg border border-gray-100">
-                                <label className="text-xs font-bold text-secondary uppercase mb-2 block">Crear Contraseña</label>
+                                <label className="text-base font-bold text-secondary uppercase mb-2 block">Crear Contraseña</label>
                                 <input
                                     name="password"
                                     type="password"
@@ -193,7 +193,7 @@ export default function RegistroPage() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full bg-secondary hover:bg-black text-white font-bold py-4 rounded-xl shadow-lg transition transform active:scale-95 uppercase tracking-widest text-sm"
+                                className="w-full bg-secondary hover:bg-black text-white font-bold py-4 rounded-xl shadow-lg transition transform active:scale-95 uppercase tracking-widest text-lg"
                             >
                                 {isLoading ? 'Procesando...' : (activeTab === 'cliente' ? 'Crear mi Cuenta' : 'Continuar y Cotizar')}
                             </button>

@@ -31,7 +31,7 @@ export default async function ProductDetailPage({ params }) {
 
   return (
     <div className="bg-white min-h-screen font-sans">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="container mx-auto max-w-[1800px] px-6 sm:px-8 lg:px-12 py-12">
         
         {/* SECCIÓN SUPERIOR: GALERÍA + INFO */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
@@ -47,7 +47,7 @@ export default async function ProductDetailPage({ params }) {
 
         {/* SECCIÓN INFERIOR: PRODUCTOS RELACIONADOS */}
         <div className="border-t border-gray-100 pt-12">
-            <h2 className="text-2xl font-extrabold text-secondary text-center mb-12">
+            <h2 className="text-4xl font-extrabold text-secondary text-center mb-12">
                 Productos Relacionados
             </h2>
             

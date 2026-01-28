@@ -35,7 +35,7 @@ export default function TiendaPage() {
 
   return (
     <div className="bg-white min-h-screen font-sans">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="container mx-auto max-w-[1800px] px-6 sm:px-8 lg:px-12 py-12">
         
         {/* LAYOUT: Sidebar (Izquierda) - Contenido (Derecha) */}
         <div className="flex flex-col md:flex-row gap-12">
@@ -73,7 +73,7 @@ export default function TiendaPage() {
             )}
 
             {/* PAGINACIÓN (Estática por ahora, visual) */}
-            <div className="mt-16 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium">
+            <div className="mt-16 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4 text-base font-medium">
                 <span className="text-gray-500">
                     Mostrando 1–{filteredProducts.length} de {filteredProducts.length} Productos
                 </span>

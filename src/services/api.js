@@ -63,3 +63,14 @@ export const getProductBySlug = async (slug) => {
         return null;
     }
 };
+
+export const searchProducts = async (query) => {
+  try {
+    // Retorna array de productos
+    const response = await axios.get(`${API_URL}/products/search?query=${query}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error buscando:", error);
+    return [];
+  }
+};

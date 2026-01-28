@@ -19,7 +19,7 @@ export default async function Home() {
     <main className="min-h-screen bg-gray-50 flex flex-col font-sans">
       
       {/* CONTENEDOR CENTRAL */}
-      <div className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+      <div className="flex-grow w-full max-w-[1800px] mx-auto px-6 sm:px-8 lg:px-12 py-10 space-y-16">
         
         {/* HERO SECTION */}
         <section className="w-full rounded-2xl overflow-hidden shadow-lg">
@@ -32,17 +32,17 @@ export default async function Home() {
         </section>
 
         {/* PRODUCTOS TECNOLOGÍA */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden py-6">
+        <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden py-8">
            <ProductCarousel title="Lo último en Tecnología" products={techProducts} />
         </section>
         
         {/* PRODUCTOS ROPA */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden py-6">
+        <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden py-8">
            <ProductCarousel title="Moda de Temporada" products={fashionProducts} />
         </section>
 
         {/* BRANDS */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
            <BrandCarousel brands={brands} />
         </section>
 

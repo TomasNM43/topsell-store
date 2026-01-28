@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { loginUser } from '@/services/auth';
@@ -42,16 +43,14 @@ export default function LoginPage() {
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
         
         {/* Cabecera Roja */}
-        <div className="bg-secondary p-8 text-center">
-            <h2 className="text-3xl font-extrabold text-white tracking-tighter">
-                TOP<span className="text-primary">SELL</span>
-            </h2>
-            <p className="text-gray-400 text-sm mt-2">Ingresa a tu cuenta para cotizar</p>
+        <div className="bg-secondary p-10 text-center">
+            <h2 className="text-4xl font-extrabold text-white mb-3">Login</h2>
+            <p className="text-gray-400 text-lg mt-3">Ingresa a tu cuenta para cotizar</p>
         </div>
 
         {/* Formulario */}
-        <div className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="p-10">
+            <form onSubmit={handleSubmit} className="space-y-8">
                 
                 {/* Mensaje de Error */}
                 {error && (
@@ -62,7 +61,7 @@ export default function LoginPage() {
 
                 {/* Email */}
                 <div>
-                    <label className="block text-xs font-bold text-secondary uppercase mb-2">Correo Electrónico</label>
+                    <label className="block text-base font-bold text-secondary uppercase mb-3">Correo Electrónico</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                             <FaEnvelope />
@@ -72,7 +71,7 @@ export default function LoginPage() {
                             required 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition text-sm"
+                            className="w-full pl-10 pr-4 py-4 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition text-base"
                             placeholder="nombre@empresa.com"
                         />
                     </div>
@@ -80,9 +79,9 @@ export default function LoginPage() {
 
                 {/* Password */}
                 <div>
-                    <div className="flex justify-between items-center mb-2">
-                        <label className="text-xs font-bold text-secondary uppercase">Contraseña</label>
-                        <Link href="/recuperar" className="text-xs text-primary hover:underline font-medium">
+                    <div className="flex justify-between items-center mb-3">
+                        <label className="text-base font-bold text-secondary uppercase">Contraseña</label>
+                        <Link href="/recuperar" className="text-base text-primary hover:underline font-medium">
                             ¿Olvidaste tu contraseña?
                         </Link>
                     </div>
@@ -95,7 +94,7 @@ export default function LoginPage() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition text-sm"
+                            className="w-full pl-10 pr-4 py-4 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition text-base"
                             placeholder="••••••••"
                         />
                     </div>
@@ -105,14 +104,14 @@ export default function LoginPage() {
                 <button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-primary hover:bg-primary-hover text-white font-bold py-3.5 rounded-lg transition shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide text-sm"
+                    className="w-full bg-primary hover:bg-primary-hover text-white font-bold py-4 rounded-lg transition shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide text-lg"
                 >
                     {isLoading ? 'Verificando...' : 'Iniciar Sesión'}
                 </button>
             </form>
 
-            <div className="mt-8 text-center pt-6 border-t border-gray-50">
-                <p className="text-sm text-gray-500 mb-2">¿Aún no tienes cuenta?</p>
+            <div className="mt-10 text-center pt-8 border-t border-gray-100">
+                <p className="text-base text-gray-500 mb-3">¿Aún no tienes cuenta?</p>
                 <Link href="/registro" className="text-secondary font-bold hover:text-primary transition border-b-2 border-secondary hover:border-primary pb-0.5">
                     Regístrate aquí
                 </Link>

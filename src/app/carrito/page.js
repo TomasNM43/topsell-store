@@ -90,9 +90,9 @@ export default function CarritoPage() {
 
   return (
     <div className="bg-white min-h-screen font-sans py-12">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-[1800px] px-6 sm:px-8 lg:px-12">
         
-        <h1 className="text-3xl font-extrabold text-secondary mb-8">Solicitud de Cotización</h1>
+        <h1 className="text-5xl font-extrabold text-secondary mb-8">Solicitud de Cotización</h1>
 
         <div className="flex flex-col lg:flex-row gap-12">
           
@@ -100,7 +100,7 @@ export default function CarritoPage() {
           <div className="flex-grow">
              {/* ... (Tabla de productos igual que antes) ... */}
               {/* Encabezados */}
-            <div className="hidden md:grid grid-cols-12 gap-4 border-b border-gray-200 pb-4 mb-6 text-sm font-bold text-gray-400 uppercase tracking-wider">
+            <div className="hidden md:grid grid-cols-12 gap-4 border-b border-gray-200 pb-4 mb-6 text-lg font-bold text-gray-400 uppercase tracking-wider">
               <div className="col-span-8">Producto</div>
               <div className="col-span-4 text-center">Cantidad</div>
             </div>
@@ -122,13 +122,13 @@ export default function CarritoPage() {
                       />
                     </div>
                     <div>
-                      <h3 className="font-bold text-secondary text-base">{item.name}</h3>
-                      <p className="text-xs text-gray-400 mt-1">SKU: {item.id}</p>
+                      <h3 className="font-bold text-secondary text-xl">{item.name}</h3>
+                      <p className="text-base text-gray-400 mt-1">SKU: {item.id}</p>
                       
                       {/* Botón Eliminar Móvil/Desktop */}
                       <button 
                         onClick={() => removeFromCart(item.id)}
-                        className="text-xs text-red-500 hover:text-red-700 hover:underline mt-2 flex items-center gap-1 font-medium"
+                        className="text-base text-red-500 hover:text-red-700 hover:underline mt-2 flex items-center gap-1 font-medium"
                       >
                         <FaTrash /> Quitar de la lista
                       </button>
@@ -165,11 +165,11 @@ export default function CarritoPage() {
           <div className="w-full lg:w-[350px] flex-shrink-0">
             <div className="bg-gray-100 rounded-2xl p-8 sticky top-24 border border-gray-200">
               
-              <h2 className="text-lg font-bold text-secondary uppercase mb-6 text-center tracking-wide">
+              <h2 className="text-2xl font-bold text-secondary uppercase mb-6 text-center tracking-wide">
                 Resumen
               </h2>
 
-              <div className="space-y-4 text-sm mb-8 border-b border-gray-300 pb-6">
+              <div className="space-y-4 text-lg mb-8 border-b border-gray-300 pb-6">
                 <div className="flex justify-between items-center text-gray-700">
                   <span>Productos distintos:</span>
                   <span className="font-bold text-secondary">{cart.length}</span>
@@ -180,7 +180,7 @@ export default function CarritoPage() {
                 </div>
               </div>
 
-              <p className="text-xs text-gray-500 text-center mb-6 leading-relaxed">
+              <p className="text-sm text-gray-500 text-center mb-6 leading-relaxed">
                 Al proceder, enviaremos esta lista a tu correo con los precios oficiales.
               </p>
 
@@ -188,7 +188,7 @@ export default function CarritoPage() {
               <button 
                 onClick={handleQuote}
                 disabled={loading}
-                className="w-full bg-secondary hover:bg-black text-white py-4 rounded-xl font-bold uppercase tracking-wider transition shadow-lg transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+                className="w-full bg-secondary hover:bg-black text-white py-4 rounded-xl font-bold text-lg uppercase tracking-wider transition shadow-lg transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
               >
                 {loading ? (
                     <>
