@@ -5,29 +5,34 @@ import { useRouter } from 'next/navigation';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true); // Para evitar "parpadeos" mientras carga
-  const router = useRouter();
-
-  // 1. CARGA INICIAL: Verificar si hay sesión guardada en el navegador
-  useEffect(() => {
-    const storedToken = localStorage.getItem('topsell_token');
-    const storedUser = localStorage.getItem('topsell_user');
-
-    if (storedToken && storedUser) {
-      try {
-        setToken(storedToken);
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error("Error al leer datos de sesión", error);
-        // Si hay error (JSON corrupto), limpiamos todo
-        localStorage.removeItem('topsell_token');
-        localStorage.removeItem('topsell_user');
+  // Inicializar estado con función para leer localStorage una sola vez
+  const [user, setUser] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('topsell_user');
+      if (storedUser) {
+        try {
+          return JSON.parse(storedUser);
+        } catch (error) {
+          console.error("Error al leer datos de usuario", error);
+          localStorage.removeItem('topsell_user');
+        }
       }
     }
-    setLoading(false);
-  }, []);
+    return null;
+  });
+
+  const [token, setToken] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedToken = localStorage.getItem('topsell_token');
+      if (storedToken) {
+        return storedToken;
+      }
+    }
+    return null;
+  });
+
+  const [loading, setLoading] = useState(false); // Ya no necesitamos loading state
+  const router = useRouter();
 
   // 2. FUNCIÓN LOGIN: Se llama cuando el Backend devuelve OK
   const login = (userData, tokenData) => {
