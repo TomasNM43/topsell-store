@@ -9,10 +9,10 @@ export default function ProductCard({ product }) {
       {/* Imagen */}
       <div className="relative w-full h-64 bg-gray-50">
         <Image 
-          src={product.imageUrl || product.image || 'https://placehold.co/400x400?text=Producto'} 
+          src={product.imageUrl} 
           alt={product.name}
           fill
-          className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+          className="object-contain group-hover:scale-105 transition-transform duration-500"
           unoptimized
         />
         

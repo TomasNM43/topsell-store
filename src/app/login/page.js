@@ -44,7 +44,7 @@ export default function LoginPage() {
         
         {/* Cabecera Roja */}
         <div className="bg-secondary p-10 text-center">
-            <h2 className="text-4xl font-extrabold text-white mb-3">Login</h2>
+            <h2 className="text-4xl font-extrabold text-white mb-3">Iniciar Sesión</h2>
             <p className="text-gray-400 text-lg mt-3">Ingresa a tu cuenta para cotizar</p>
         </div>
 

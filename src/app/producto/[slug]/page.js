@@ -15,7 +15,7 @@ export default async function ProductDetailPage({ params }) {
     return (
         <div className="container mx-auto py-20 text-center">
             <h1 className="text-2xl font-bold text-gray-800">Producto no encontrado</h1>
-            <p className="text-gray-500 mt-2">El producto "{slug}" no existe en nuestra base de datos.</p>
+            <p className="text-gray-500 mt-2">El producto &quot;{slug}&quot; no existe en nuestra base de datos.</p>
             <a href="/tienda" className="text-primary underline mt-4 block">Volver a la tienda</a>
         </div>
     );
@@ -37,7 +37,8 @@ export default async function ProductDetailPage({ params }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
             {/* Columna Izquierda: Galería */}
             <ProductGallery 
-                mainImage={product.imageUrl || 'https://placehold.co/600x600?text=Producto'} 
+                mainImage={product.imageUrl}
+                secondaryImages={product.images?.map(img => img.imageUrl) || []}
                 productName={product.name}
             />
 

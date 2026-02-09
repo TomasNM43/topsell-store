@@ -1,9 +1,41 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 
-export default function ShopSidebar({ categories, selectedCategory, onSelectCategory }) {
+export default function ShopSidebar({ 
+  categories, 
+  selectedCategory, 
+  selectedSubCategory,
+  onSelectCategory,
+  onSelectSubCategory,
+  onClearFilters
+}) {
   const [isOpen, setIsOpen] = useState(true);
+  const [openSubCategories, setOpenSubCategories] = useState({});
+
+  // Abrir automáticamente la categoría cuando hay una subcategoría seleccionada
+  useEffect(() => {
+    if (selectedSubCategory && categories.length > 0) {
+      // Encontrar la categoría padre de la subcategoría seleccionada
+      const parentCategory = categories.find(cat => 
+        cat.subCategories?.some(sub => sub.slug === selectedSubCategory)
+      );
+      
+      if (parentCategory) {
+        setOpenSubCategories(prev => ({
+          ...prev,
+          [parentCategory.slug]: true
+        }));
+      }
+    }
+  }, [selectedSubCategory, categories]);
+
+  const toggleSubCategory = (categorySlug) => {
+    setOpenSubCategories(prev => ({
+      ...prev,
+      [categorySlug]: !prev[categorySlug]
+    }));
+  };
 
   return (
     <aside className="w-full md:w-64 flex-shrink-0">
@@ -14,7 +46,7 @@ export default function ShopSidebar({ categories, selectedCategory, onSelectCate
             Filtrar
         </div>
         <button 
-            onClick={() => onSelectCategory(null)} 
+            onClick={onClearFilters} 
             className="text-xs text-gray-500 hover:text-primary underline decoration-gray-300 hover:decoration-primary transition"
         >
             Limpiar todo
@@ -36,18 +68,49 @@ export default function ShopSidebar({ categories, selectedCategory, onSelectCate
             <ul className="space-y-3">
                 {categories.map((cat) => (
                     <li key={cat.id}>
-                        <button
-                            onClick={() => onSelectCategory(cat.slug)}
-                            className={`flex justify-between w-full text-sm group ${
-                                selectedCategory === cat.slug ? 'text-primary font-bold' : 'text-gray-500 hover:text-secondary'
-                            }`}
-                        >
-                            <span>{cat.name}</span>
-                            {/* Número simulado (luego se conectará con BD real) */}
-                            <span className="text-gray-300 group-hover:text-gray-400 text-xs">
-                                ({Math.floor(Math.random() * 20) + 1})
-                            </span>
-                        </button>
+                        <div className="space-y-2">
+                            {/* Categoría Principal */}
+                            <div className="flex items-center justify-between">
+                                <button
+                                    onClick={() => onSelectCategory(cat.slug)}
+                                    className={`flex-grow text-left text-sm group ${
+                                        selectedCategory === cat.slug ? 'text-primary font-bold' : 'text-gray-500 hover:text-secondary'
+                                    }`}
+                                >
+                                    <span>{cat.name}</span>
+                                </button>
+                                
+                                {/* Botón para expandir subcategorías */}
+                                {cat.subCategories && cat.subCategories.length > 0 && (
+                                    <button
+                                        onClick={() => toggleSubCategory(cat.slug)}
+                                        className="text-gray-400 hover:text-gray-600 text-xs p-1"
+                                    >
+                                        {openSubCategories[cat.slug] ? <FaMinus /> : <FaPlus />}
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Subcategorías */}
+                            {cat.subCategories && cat.subCategories.length > 0 && openSubCategories[cat.slug] && (
+                                <ul className="ml-4 space-y-2 border-l-2 border-gray-100 pl-3">
+                                    {cat.subCategories.map((subCat) => (
+                                        <li key={subCat.id}>
+                                            <button
+                                                onClick={() => onSelectSubCategory(subCat.slug)}
+                                                className={`text-xs w-full text-left ${
+                                                    selectedSubCategory === subCat.slug 
+                                                        ? 'text-primary font-bold' 
+                                                        : 'text-gray-400 hover:text-secondary'
+                                                }`}
+                                            >
+                                                {subCat.name}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
                     </li>
                 ))}
             </ul>

@@ -114,7 +114,7 @@ export default function CarritoPage() {
                   <div className="col-span-8 flex items-center gap-6">
                     <div className="relative w-20 h-20 border border-gray-100 rounded-md overflow-hidden flex-shrink-0">
                       <Image 
-                        src={item.imageUrl || item.image || 'https://placehold.co/100x100'} 
+                        src={item.imageUrl} 
                         alt={item.name} 
                         fill 
                         className="object-contain p-2"

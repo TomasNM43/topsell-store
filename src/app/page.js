@@ -1,4 +1,4 @@
-import { getBanners, getCategories, getProductsByCategory, getBrands } from "@/services/api";
+import { getBanners, getCategories, getProducts, getBrands } from "@/services/api";
 import HeroCarousel from "@/components/HeroCarousel";
 import CategoryCarousel from "@/components/CategoryCarousel";
 import ProductCarousel from "@/components/ProductCarousel";
@@ -7,13 +7,23 @@ import Header from "@/components/Header";
 import Footer  from "@/components/Footer";
 
 export default async function Home() {
-  const [banners, categories, techProducts, fashionProducts, brands] = await Promise.all([
+  // Obtener banners, categorías, productos y marcas
+  const [banners, categories, allProducts, brands] = await Promise.all([
     getBanners(),
     getCategories(),
-    getProductsByCategory('tecnologia'),
-    getProductsByCategory('ropa'),
+    getProducts(),
     getBrands()
   ]);
+
+  // Novedades: últimos productos añadidos (los últimos 12 por ID)
+  const novedades = [...allProducts]
+    .sort((a, b) => b.id - a.id)
+    .slice(0, 12);
+
+  // Productos Varios: selección distribuida de productos (determinista)
+  const productosVarios = allProducts
+    .filter((_, index) => index % 2 === 0) // Tomar productos en posiciones pares
+    .slice(0, 12);
 
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col font-sans">
@@ -27,19 +37,23 @@ export default async function Home() {
         </section>
 
         {/* CATEGORIES */}
-        <section className="text-center"> {/* <--- AGREGADO: text-center */}
+        <section className="text-center">
            <CategoryCarousel categories={categories} />
         </section>
 
-        {/* PRODUCTOS TECNOLOGÍA */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden py-8">
-           <ProductCarousel title="Lo último en Tecnología" products={techProducts} />
-        </section>
-        
-        {/* PRODUCTOS ROPA */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden py-8">
-           <ProductCarousel title="Moda de Temporada" products={fashionProducts} />
-        </section>
+        {/* NOVEDADES */}
+        {novedades.length > 0 && (
+          <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden py-8">
+            <ProductCarousel title="Novedades" products={novedades} />
+          </section>
+        )}
+
+        {/* PRODUCTOS VARIOS */}
+        {productosVarios.length > 0 && (
+          <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden py-8">
+            <ProductCarousel title="Productos Varios" products={productosVarios} />
+          </section>
+        )}
 
         {/* BRANDS */}
         <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">

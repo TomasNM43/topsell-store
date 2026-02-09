@@ -2,14 +2,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-export default function ProductGallery({ mainImage, productName }) {
-  // Simulación: Como la BD solo tiene 1 foto por ahora, creamos un array ficticio
-  // para que veas cómo funciona la galería.
-  const images = [
-    mainImage,
-    mainImage, // Repetida para simular galería
-    mainImage  // Repetida
-  ];
+export default function ProductGallery({ mainImage, secondaryImages = [], productName }) {
+  // Construir array de imágenes: principal primero, luego las secundarias
+  const images = [mainImage, ...secondaryImages].filter(Boolean);
 
   const [selectedImage, setSelectedImage] = useState(images[0]);
 

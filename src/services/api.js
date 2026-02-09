@@ -45,6 +45,7 @@ export const getBrands = async () => {
 
 export const getProductsByCategory = async (slug) => {
     try {
+        console.log(`Fetching products for category slug: ${slug}`);
         const response = await axios.get(`${API_URL}/products/category/${slug}`);
         return response.data;
     } catch (error) {
@@ -72,5 +73,16 @@ export const searchProducts = async (query) => {
   } catch (error) {
     console.error("Error buscando:", error);
     return [];
+  }
+};
+
+export const submitContact = async (contactData) => {
+  try {
+    const response = await axios.post(`${API_URL}/contact`, contactData);
+    return { success: true, data: response.data };
+  } catch (error) {
+    console.error("Error al enviar formulario de contacto:", error);
+    const errorMessage = error.response?.data?.error || 'Error al enviar el mensaje. Por favor, intenta nuevamente.';
+    return { success: false, error: errorMessage };
   }
 };

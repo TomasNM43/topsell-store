@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FaShoppingCart, FaUser, FaBars, FaTimes, FaChevronRight, FaTrash, FaSignOutAlt, FaUserCircle, FaSearch, FaSpinner } from 'react-icons/fa';
-import { getCategories, searchProducts } from '@/services/api'; // <--- IMPORTAR searchProducts
+import { getCategories, searchProducts } from '@/services/api';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 
@@ -16,14 +16,13 @@ export default function Header() {
   
   // --- ESTADOS PARA BÚSQUEDA EN VIVO ---
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]); // Resultados previos
-  const [isSearching, setIsSearching] = useState(false); // Loading de búsqueda
-  const [showPreview, setShowPreview] = useState(false); // Mostrar/Ocultar dropdown
-  const searchRef = useRef(null); // Para detectar clics fuera y cerrar
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const searchRef = useRef(null);
 
   const router = useRouter();
 
-  // Estados para dropdowns
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
@@ -38,7 +37,6 @@ export default function Header() {
     };
     fetchCats();
 
-    // Event listener para cerrar el buscador si hago clic fuera
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowPreview(false);
@@ -51,20 +49,17 @@ export default function Header() {
 
   // --- EFECTO DEBOUCE PARA BÚSQUEDA ---
   useEffect(() => {
-    // Si el término es muy corto, limpiamos y no buscamos
     if (searchTerm.length < 2) {
         setSearchResults([]);
         setShowPreview(false);
         return;
     }
 
-    // Esperamos 300ms antes de llamar a la API
     const delayDebounceFn = setTimeout(async () => {
         setIsSearching(true);
         setShowPreview(true);
         try {
             const results = await searchProducts(searchTerm);
-            // Limitamos a 5 resultados para la previsualización
             setSearchResults(results.slice(0, 5));
         } catch (error) {
             console.error(error);
@@ -76,11 +71,9 @@ export default function Header() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
 
-
-  // --- MANEJAR SUBMIT (ENTER) ---
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setShowPreview(false); // Ocultar preview
+    setShowPreview(false);
     if (searchTerm.trim()) {
       router.push(`/tienda?query=${encodeURIComponent(searchTerm)}`);
     }
@@ -89,9 +82,10 @@ export default function Header() {
   return (
     <header className="bg-white sticky top-0 z-50 shadow-sm border-b border-gray-100 font-sans">
       <div className="container mx-auto max-w-[1800px] px-6 sm:px-8 lg:px-12 relative">
+        {/* Contenedor principal flex */}
         <div className="flex justify-between items-center h-24 gap-4">
 
-          {/* 1. LOGO */}
+          {/* 1. LOGO (Izquierda) */}
           <div className="flex-shrink-0 z-20">
             <Link href="/" className="flex items-center gap-3">
               <div className="relative w-32 h-24">
@@ -100,72 +94,9 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* 2. BÚSQUEDA CON PREVISUALIZACIÓN */}
-          <div className="hidden lg:flex flex-1 max-w-md ml-4 mr-auto z-20 relative" ref={searchRef}>
-            <form onSubmit={handleSearchSubmit} className="relative w-full">
-                <input 
-                    type="text" 
-                    placeholder="Buscar productos..." 
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onFocus={() => { if(searchResults.length > 0) setShowPreview(true); }}
-                    className="w-full bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-full pl-5 pr-12 py-2.5 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition"
-                />
-                <button 
-                    type="submit"
-                    className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary-hover text-white p-2 rounded-full w-8 h-8 flex items-center justify-center transition"
-                >
-                    {isSearching ? <FaSpinner className="animate-spin text-xs" /> : <FaSearch className="text-xs" />}
-                </button>
-            </form>
-
-            {/* --- DROPDOWN DE RESULTADOS --- */}
-            {showPreview && (
-                <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                    {searchResults.length > 0 ? (
-                        <>
-                            {searchResults.map((product) => (
-                                <Link 
-                                    key={product.id} 
-                                    href={`/producto/${product.slug}`}
-                                    onClick={() => { setShowPreview(false); setSearchTerm(''); }}
-                                    className="flex items-center gap-3 p-3 hover:bg-gray-50 transition border-b border-gray-50 last:border-0"
-                                >
-                                    <div className="relative w-10 h-10 flex-shrink-0 border border-gray-100 rounded bg-white">
-                                        <Image 
-                                            src={product.imageUrl || product.image || 'https://placehold.co/100x100'} 
-                                            alt={product.name} 
-                                            fill 
-                                            className="object-contain p-1"
-                                            unoptimized
-                                        />
-                                    </div>
-                                    <div className="min-w-0">
-                                        <p className="text-sm font-bold text-gray-700 truncate">{product.name}</p>
-                                        <p className="text-[10px] text-gray-400 uppercase">{product.category?.name || 'Producto'}</p>
-                                    </div>
-                                </Link>
-                            ))}
-                            <button 
-                                onClick={handleSearchSubmit}
-                                className="w-full text-center py-2 text-xs font-bold text-primary hover:bg-gray-50 transition"
-                            >
-                                Ver todos los resultados
-                            </button>
-                        </>
-                    ) : (
-                        !isSearching && searchTerm.length >= 2 && (
-                            <div className="p-4 text-center text-gray-400 text-sm">
-                                No encontramos productos que coincidan.
-                            </div>
-                        )
-                    )}
-                </div>
-            )}
-          </div>
-
-          {/* 3. MENÚ DE NAVEGACIÓN */}
-          <nav className="hidden xl:flex space-x-8 absolute left-1/2 transform -translate-x-1/2 h-full items-center z-10">
+          {/* 2. MENÚ DE NAVEGACIÓN (Centro-Izquierda) */}
+          <nav className="hidden xl:flex items-center space-x-8 ml-8 h-full z-10">
+            <Link href="/nosotros" className="text-base font-bold text-secondary hover:text-primary transition uppercase tracking-wide">Nosotros</Link>
              <div 
                 className="relative h-full flex items-center"
                 onMouseEnter={() => setIsStoreHovered(true)}
@@ -174,8 +105,9 @@ export default function Header() {
                 <Link href="/tienda" className="text-base font-bold text-secondary hover:text-primary transition uppercase tracking-wide cursor-pointer h-full flex items-center">
                   Tienda
                 </Link>
+                {/* Mega Menu Dropdown */}
                 {isStoreHovered && (
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[600px] bg-white shadow-xl border border-gray-100 rounded-b-xl flex overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                    <div className="absolute top-full left-0 w-[600px] bg-white shadow-xl border border-gray-100 rounded-b-xl flex overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                         <div className="w-1/3 bg-gray-50 py-4">
                             {categories.map((cat) => (
                                 <div key={cat.id} onMouseEnter={() => setActiveCategory(cat)} className={`px-6 py-3 cursor-pointer text-base font-semibold flex justify-between items-center transition ${activeCategory?.id === cat.id ? 'bg-white text-primary border-l-4 border-primary shadow-sm' : 'text-gray-600 hover:bg-gray-100'}`}>
@@ -190,7 +122,13 @@ export default function Header() {
                                     <ul className="grid grid-cols-2 gap-4">
                                         {activeCategory.subCategories.map((sub) => (
                                             <li key={sub.id}>
-                                                <Link href={`/categoria/${activeCategory.slug}/${sub.slug}`} className="text-gray-500 hover:text-primary text-base transition hover:underline">{sub.name}</Link>
+                                                <Link 
+                                                    href={`/tienda?category=${activeCategory.slug}&subcategory=${sub.slug}`}
+                                                    onClick={() => setIsStoreHovered(false)}
+                                                    className="text-gray-500 hover:text-primary text-base transition hover:underline block"
+                                                >
+                                                    {sub.name}
+                                                </Link>
                                             </li>
                                         ))}
                                     </ul>
@@ -200,12 +138,81 @@ export default function Header() {
                     </div>
                 )}
             </div>
-            <Link href="/nosotros" className="text-base font-bold text-secondary hover:text-primary transition uppercase tracking-wide">Nosotros</Link>
             <Link href="/contacto" className="text-base font-bold text-secondary hover:text-primary transition uppercase tracking-wide">Contacto</Link>
           </nav>
 
-          {/* 4. ACCIONES (Login + Carrito) */}
-          <div className="flex items-center gap-6 z-20 ml-auto">
+          {/* 3. BÚSQUEDA CON PREVISUALIZACIÓN (Centro-Derecha) */}
+          {/* CAMBIO 1: Aumenté 'max-w-md' a 'max-w-2xl' para que la barra y el dropdown sean más anchos */}
+          <div className="hidden lg:flex flex-1 max-w-2xl mx-6 z-20 relative" ref={searchRef}>
+            <form onSubmit={handleSearchSubmit} className="relative w-full">
+                <input 
+                    type="text" 
+                    placeholder="Buscar productos..." 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onFocus={() => { if(searchResults.length > 0) setShowPreview(true); }}
+                    // Aumenté un poco el padding vertical py-3
+                    className="w-full bg-gray-50 border border-gray-200 text-gray-700 text-base rounded-full pl-6 pr-12 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition"
+                />
+                <button 
+                    type="submit"
+                    className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary-hover text-white p-2.5 rounded-full w-9 h-9 flex items-center justify-center transition"
+                >
+                    {isSearching ? <FaSpinner className="animate-spin text-sm" /> : <FaSearch className="text-sm" />}
+                </button>
+            </form>
+
+            {/* Dropdown Resultados */}
+            {showPreview && (
+                <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                    {searchResults.length > 0 ? (
+                        <>
+                            {searchResults.map((product) => (
+                                <Link 
+                                    key={product.id} 
+                                    href={`/producto/${product.slug}`}
+                                    onClick={() => { setShowPreview(false); setSearchTerm(''); }}
+                                    // CAMBIO 2: Aumenté padding 'p-4' y gap 'gap-4'
+                                    className="flex items-center gap-4 p-4 hover:bg-gray-50 transition border-b border-gray-50 last:border-0"
+                                >
+                                    {/* CAMBIO 3: Imagen más grande (w-16 h-16 en vez de w-10 h-10) */}
+                                    <div className="relative w-16 h-16 flex-shrink-0 border border-gray-100 rounded bg-white">
+                                        <Image 
+                                            src={product.imageUrl} 
+                                            alt={product.name} 
+                                            fill 
+                                            className="object-contain p-1"
+                                            unoptimized
+                                        />
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        {/* CAMBIO 4: Texto más grande */}
+                                        <p className="text-base font-bold text-gray-700 truncate">{product.name}</p>
+                                        <p className="text-xs text-gray-500 uppercase font-medium mt-1">{product.category?.name || 'Producto'}</p>
+                                    </div>
+                                    <FaChevronRight className="text-gray-300 text-sm" />
+                                </Link>
+                            ))}
+                            <button 
+                                onClick={handleSearchSubmit}
+                                className="w-full text-center py-3 text-sm font-bold text-primary hover:bg-gray-50 transition uppercase tracking-wide"
+                            >
+                                Ver todos los resultados
+                            </button>
+                        </>
+                    ) : (
+                        !isSearching && searchTerm.length >= 2 && (
+                            <div className="p-8 text-center text-gray-400 text-base">
+                                No encontramos productos que coincidan.
+                            </div>
+                        )
+                    )}
+                </div>
+            )}
+          </div>
+
+          {/* 4. ACCIONES (Login + Carrito) (Derecha) */}
+          <div className="flex items-center gap-6 z-20">
             {user ? (
                 <div className="relative hidden md:block">
                     <button 
@@ -269,7 +276,7 @@ export default function Header() {
                       {cart.slice(0, 3).map((item) => (
                         <div key={item.id} className="p-4 flex gap-3 border-b border-gray-50">
                            <div className="w-12 h-12 relative border border-gray-100 rounded overflow-hidden flex-shrink-0">
-                             <Image src={item.imageUrl || item.image || 'https://placehold.co/100x100'} alt={item.name} fill className="object-contain" unoptimized />
+                             <Image src={item.imageUrl} alt={item.name} fill className="object-contain" unoptimized />
                            </div>
                            <div className="flex-grow min-w-0">
                              <h4 className="text-xs font-bold text-secondary truncate">{item.name}</h4>
@@ -296,7 +303,6 @@ export default function Header() {
 
       {isMobileMenuOpen && (
          <div className="xl:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg p-4">
-             {/* Búsqueda en móvil (simplificada sin preview para no tapar toda la pantalla) */}
              <form onSubmit={handleSearchSubmit} className="mb-4 relative">
                 <input 
                     type="text" 
@@ -317,8 +323,8 @@ export default function Header() {
              ) : (
                  <Link href="/login" className="block mb-4 font-bold text-secondary">Iniciar Sesión</Link>
              )}
-             <Link href="/tienda" className="block py-2 text-secondary">TIENDA</Link>
              <Link href="/nosotros" className="block py-2 text-secondary">NOSOTROS</Link>
+             <Link href="/tienda" className="block py-2 text-secondary">TIENDA</Link>
              <Link href="/contacto" className="block py-2 text-secondary">CONTACTO</Link>
          </div>
       )}

@@ -39,26 +39,24 @@ export default function ProductInfo({ product }) {
 
       {/* Descripción Corta */}
       <div className="text-gray-600 text-sm leading-relaxed mb-6">
-        {product.description || product.shortDescription}
+        {product.shortDescription || product.description}
       </div>
 
-      {/* Características (Lista con bullets) */}
-      <ul className="list-disc list-inside text-sm text-gray-600 mb-8 space-y-1">
-        {/* Simulamos características si no vienen de BD */}
-        <li>Tecnología LED de alta eficiencia.</li>
-        <li>Diseño moderno y regulable.</li>
-        <li>Material resistente de primera calidad.</li>
-        <li>Garantía de fábrica incluida.</li>
-      </ul>
-
-      {/* Selector de Color (Simulado visualmente como en tu imagen) */}
-      <div className="mb-8">
-        <span className="text-sm font-bold text-secondary block mb-2">Color:</span>
-        <div className="flex gap-2">
-            <button className="w-8 h-8 rounded-full bg-gray-400 border-2 border-white ring-2 ring-gray-200 focus:ring-primary transition"></button>
-            <button className="w-8 h-8 rounded-full bg-black border-2 border-white ring-2 ring-gray-200 focus:ring-primary transition"></button>
+      {/* Descripción Larga */}
+      {product.longDescription && (
+        <div className="text-gray-600 text-sm leading-relaxed mb-6">
+          {product.longDescription}
         </div>
-      </div>
+      )}
+
+      {/* Características (Dinámico) */}
+      {product.features && product.features.length > 0 && (
+        <ul className="list-disc list-inside text-sm text-gray-600 mb-8 space-y-1">
+          {product.features.map((feature, index) => (
+            <li key={index}>{feature}</li>
+          ))}
+        </ul>
+      )}
 
       {/* Fila de Acción: Cantidad + Botón Cotizar */}
       <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-gray-100">
@@ -83,13 +81,6 @@ export default function ProductInfo({ product }) {
                 "Cotizar"
             )}
         </button>
-      </div>
-
-      {/* Redes Sociales */}
-      <div className="flex items-center gap-4">
-        <span className="text-gray-400 text-sm">Compartir:</span>
-        <button className="text-gray-400 hover:text-[#1877F2] transition text-xl"><FaFacebookF /></button>
-        <button className="text-gray-400 hover:text-[#25D366] transition text-xl"><FaWhatsapp /></button>
       </div>
 
     </div>

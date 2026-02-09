@@ -47,9 +47,9 @@ export function CartProvider({ children }) {
         );
       }
       // Aseguramos tener una imagen válida para mostrar en el carrito
-      const imageToSave = product.imageUrl || product.image || 'https://placehold.co/100x100';
+      const imageToSave = product.imageUrl;
       
-      return [...prev, { ...product, image: imageToSave, quantity }];
+      return [...prev, { ...product, imageUrl: imageToSave, quantity }];
     });
   };
 

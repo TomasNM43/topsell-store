@@ -21,10 +21,10 @@ export default function ShopProductCard({ product }) {
         </div>
 
         <Image
-          src={product.imageUrl || product.image || 'https://placehold.co/400x400?text=Producto'} 
+          src={product.imageUrl} 
           alt={product.name}
           fill
-          className="object-contain p-4 group-hover:scale-105 transition duration-500"
+          className="object-contain group-hover:scale-105 transition duration-500"
           unoptimized
         />
       </div>
