@@ -1,18 +1,21 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { getCategories, getProducts } from '@/services/api';
 import ShopSidebar from '@/components/ShopSidebar';
 import ShopProductCard from '@/components/ShopProductCard';
 
 export default function TiendaPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [categories, setCategories] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const PRODUCTS_PER_PAGE = 12;
+
+  // Derivar estados de los parámetros de URL
+  const selectedCategory = useMemo(() => searchParams.get('category'), [searchParams]);
+  const selectedSubCategory = useMemo(() => searchParams.get('subcategory'), [searchParams]);
 
   // Carga inicial de datos
   useEffect(() => {
@@ -26,29 +29,6 @@ export default function TiendaPage() {
     };
     fetchData();
   }, []);
-
-  // Leer parámetros de URL al cargar
-  useEffect(() => {
-    const categoryParam = searchParams.get('category');
-    const subcategoryParam = searchParams.get('subcategory');
-    
-    if (categoryParam) {
-      setSelectedCategory(categoryParam);
-    }
-    if (subcategoryParam) {
-      setSelectedSubCategory(subcategoryParam);
-      
-      // Si hay subcategoría pero no categoría, encontrar la categoría padre
-      if (!categoryParam && categories.length > 0) {
-        const parentCategory = categories.find(cat => 
-          cat.subCategories?.some(sub => sub.slug === subcategoryParam)
-        );
-        if (parentCategory) {
-          setSelectedCategory(parentCategory.slug);
-        }
-      }
-    }
-  }, [searchParams, categories]);
 
   // Calcular productos filtrados usando useMemo
   const filteredProducts = useMemo(() => {
@@ -68,39 +48,41 @@ export default function TiendaPage() {
 
   // Calcular páginas
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
-  const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+  
+  // Ajustar página actual si está fuera de rango
+  const validCurrentPage = Math.min(currentPage, Math.max(1, totalPages));
+  const startIndex = (validCurrentPage - 1) * PRODUCTS_PER_PAGE;
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
   const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
   // Limpiar filtros
   const handleClearFilters = () => {
-    setSelectedCategory(null);
-    setSelectedSubCategory(null);
     setCurrentPage(1);
+    router.push('/tienda');
   };
 
   // Manejar selección de categoría
   const handleSelectCategory = (slug) => {
-    setSelectedCategory(slug);
-    // Si se selecciona una categoría diferente, limpiar la subcategoría
-    if (slug !== selectedCategory) {
-      setSelectedSubCategory(null);
-    }
     setCurrentPage(1);
+    const params = new URLSearchParams();
+    params.set('category', slug);
+    router.push(`/tienda?${params.toString()}`);
   };
 
   // Manejar selección de subcategoría
   const handleSelectSubCategory = (slug) => {
-    setSelectedSubCategory(slug);
     setCurrentPage(1);
-    
-    // Encontrar y establecer la categoría padre automáticamente
+    // Encontrar la categoría padre
     const parentCategory = categories.find(cat => 
       cat.subCategories?.some(sub => sub.slug === slug)
     );
+    
+    const params = new URLSearchParams();
     if (parentCategory) {
-      setSelectedCategory(parentCategory.slug);
+      params.set('category', parentCategory.slug);
     }
+    params.set('subcategory', slug);
+    router.push(`/tienda?${params.toString()}`);
   };
 
   // Navegación de páginas
@@ -169,7 +151,7 @@ export default function TiendaPage() {
                     <div className="flex items-center gap-2">
                         <button 
                           onClick={handlePrevPage}
-                          disabled={currentPage === 1}
+                          disabled={validCurrentPage === 1}
                           className="text-gray-800 hover:text-primary px-2 disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                           Prev
@@ -181,14 +163,14 @@ export default function TiendaPage() {
                           if (
                             page === 1 || 
                             page === totalPages || 
-                            (page >= currentPage - 1 && page <= currentPage + 1)
+                            (page >= validCurrentPage - 1 && page <= validCurrentPage + 1)
                           ) {
                             return (
                               <button
                                 key={page}
                                 onClick={() => handlePageClick(page)}
                                 className={`w-8 h-8 flex items-center justify-center border transition ${
-                                  currentPage === page
+                                  validCurrentPage === page
                                     ? 'border-primary text-primary font-bold'
                                     : 'border-transparent text-gray-500 hover:border-gray-200'
                                 }`}
@@ -196,7 +178,7 @@ export default function TiendaPage() {
                                 {page}
                               </button>
                             );
-                          } else if (page === currentPage - 2 || page === currentPage + 2) {
+                          } else if (page === validCurrentPage - 2 || page === validCurrentPage + 2) {
                             return <span key={page} className="text-gray-400">…</span>;
                           }
                           return null;
@@ -204,7 +186,7 @@ export default function TiendaPage() {
                         
                         <button 
                           onClick={handleNextPage}
-                          disabled={currentPage === totalPages}
+                          disabled={validCurrentPage === totalPages}
                           className="text-gray-800 hover:text-primary px-2 disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                           Next
