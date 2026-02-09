@@ -1,11 +1,11 @@
 'use client';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { getCategories, getProducts } from '@/services/api';
 import ShopSidebar from '@/components/ShopSidebar';
 import ShopProductCard from '@/components/ShopProductCard';
 
-export default function TiendaPage() {
+function TiendaContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [categories, setCategories] = useState([]);
@@ -200,5 +200,20 @@ export default function TiendaPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TiendaPage() {
+  return (
+    <Suspense fallback={
+      <div className="bg-white min-h-screen font-sans flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          <p className="mt-4 text-gray-500">Cargando productos...</p>
+        </div>
+      </div>
+    }>
+      <TiendaContent />
+    </Suspense>
   );
 }
