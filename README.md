@@ -2,7 +2,26 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### 1. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 2. Configurar variables de entorno
+
+```bash
+# Copiar el template de variables de entorno
+cp .env.example .env.local
+```
+
+Edita `.env.local` y configura:
+- `NEXT_PUBLIC_API_URL`: URL de tu API backend (por defecto: `http://localhost:8080/api`)
+- `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`: Clave de Google reCAPTCHA v3
+
+📖 Ver [ENV_CONFIG.md](./ENV_CONFIG.md) para instrucciones detalladas.
+
+### 3. Ejecutar el servidor de desarrollo
 
 ```bash
 npm run dev

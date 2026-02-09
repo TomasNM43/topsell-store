@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// URL de tu Backend Spring Boot
-const API_URL = 'http://localhost:8080/api';
+// URL de tu Backend Spring Boot (desde variable de entorno)
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
 export const getBanners = async () => {
     try {
